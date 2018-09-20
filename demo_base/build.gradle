@@ -5,7 +5,7 @@ android {
     buildToolsVersion rootProject.buildVersion
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion rootProject.minVersion
         targetSdkVersion rootProject.compileVersion
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.4'
+    implementation 'com.google.code.gson:gson:2.8.5'
     api rootProject.ext.deps.cc
 }

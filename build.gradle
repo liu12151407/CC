@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.51'
+    ext.kotlin_version = '1.2.61'
     
     repositories {
         maven{ url rootProject.file("repo-local") }
@@ -31,11 +31,11 @@ allprojects {
 }
 
 ext {
-    compileVersion = 26
-    buildVersion = '27.0.3'
-    minVersion = 8
+    compileVersion = 27
+    buildVersion = '28.0.2'
+    minVersion = 21
 
-    supportVersion = '25.3.1'
+    supportVersion = '27.1.1'
 
     deps = [
         cc       : 'com.billy.android:cc:2.0.0'
