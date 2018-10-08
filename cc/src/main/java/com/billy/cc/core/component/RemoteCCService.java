@@ -68,16 +68,13 @@ public class RemoteCCService extends IRemoteCCService.Stub {
                     doCallback(callback, callId, ccResult);
                 }
             });
-        } else if (remoteCC.isResultRequired()) {
+        } else {
             cc.callAsync(new IComponentCallback() {
                 @Override
                 public void onResult(CC cc, CCResult result) {
                     doCallback(callback, callId, result);
                 }
             });
-        } else {
-            cc.callAsync();
-            doCallback(callback, callId, CCResult.success());
         }
     }
 
@@ -88,9 +85,17 @@ public class RemoteCCService extends IRemoteCCService.Stub {
 
     private static void doCallback(IRemoteCallback callback, String callId, CCResult ccResult) {
         try {
-            RemoteCCResult remoteCCResult = new RemoteCCResult(ccResult);
-            if (CC.VERBOSE_LOG) {
-                CC.verboseLog(callId, "callback to other process. RemoteCCResult: %s", remoteCCResult.toString());
+            RemoteCCResult remoteCCResult;
+            try{
+                remoteCCResult = new RemoteCCResult(ccResult);
+                if (CC.VERBOSE_LOG) {
+                    CC.verboseLog(callId, "callback to other process. RemoteCCResult: %s", remoteCCResult.toString());
+                }
+            }catch(Exception e){
+                remoteCCResult = new RemoteCCResult(CCResult.error(CCResult.CODE_ERROR_REMOTE_CC_DELIVERY_FAILED));
+                if (CC.VERBOSE_LOG) {
+                    CC.verboseLog(callId, "remote CC success. But result can not be converted for IPC. RemoteCCResult: %s", remoteCCResult.toString());
+                }
             }
             callback.callback(remoteCCResult);
         } catch (RemoteException e) {
